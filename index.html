@@ -111,6 +111,13 @@
   /* Q blocks */
   .q-block { background: #fff; border: 1px solid var(--gray2); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 13px; box-shadow: var(--shadow); }
   .q-label { font-weight: 700; margin-bottom: 10px; font-size: .93rem; }
+  .q-select-hint {
+    font-size: .82rem;
+    font-weight: 600;
+    color: #6a1b9a;
+    margin-left: 6px;
+    font-style: italic;
+  }
   .q-sub   { color: #444444; font-size: .85rem; margin-bottom: 9px; }
   .options-row { display: flex; flex-wrap: wrap; gap: 9px; }
   .opt-btn { background: var(--gray1); border: 2px solid var(--gray2); border-radius: 8px; padding: 8px 14px; font-size: .88rem; cursor: pointer; transition: all .18s; font-family: inherit; }
@@ -293,7 +300,6 @@
   </div>
   <div class="header-right">
     <span class="session-badge" id="global-count">0 sessions recorded</span>
-    <button class="btn-export" onclick="exportAllCSV()" style="padding:7px 14px;font-size:.82rem;">⬇ Export All to CSV</button>
     <button class="btn-settings" onclick="openGHModal()" title="Configure GitHub submission">⚙ GitHub Setup</button>
   </div>
 </header>
@@ -408,12 +414,11 @@
     <div class="batch-desc">Testing whether patrons understand what a library "Kit" is and where they'd expect to find it.</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Show just the word "Kits." Do NOT define it. Ask questions in order. Tap responses on behalf of the patron, or let them tap.</div>
-  <div class="strategy-box"><strong>Method: Scenario Task + Open Reaction</strong> — "Kit" is unfamiliar as a library label. Grounding in a real task prevents blank stares.</div>
+  <div class="strategy-box"><strong>Method: Scenario Task + Open Reaction</strong> — Show just the word "Kits" without defining it. Ask questions in order. Tap responses on behalf of the patron, or let them tap themselves.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b1-date" /></label>
-    <label>Patron # (no names) <input type="text" id="b1-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b1-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
@@ -421,13 +426,13 @@
   <div class="scenario-card"><div class="scenario-icon">🎁</div><div class="scenario-text">You see a section of the library labeled <em>"Kits."</em></div></div>
 
   <div class="q-block">
-    <div class="q-label">Q1 — What do you think you'd find in a section called "Kits"?</div>
+    <div class="q-label">Q1 — What do you think you'd find in a section called "Kits"? <span class="q-select-hint">(Select all that apply)</span></div>
     <div class="options-row" id="b1q1-opts">
-      <button class="opt-btn" onclick="selectOpt(this,'b1q1')">Craft or activity supplies</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b1q1')">A collection of items on a theme</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b1q1')">Books and materials together</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b1q1')">Something for children</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b1q1')">Not sure</button>
+      <button class="opt-btn" onclick="toggleOpt(this)">Craft or activity supplies</button>
+      <button class="opt-btn" onclick="toggleOpt(this)">A collection of items on a theme</button>
+      <button class="opt-btn" onclick="toggleOpt(this)">Books and materials together</button>
+      <button class="opt-btn" onclick="toggleOpt(this)">Something for children</button>
+      <button class="opt-btn" onclick="toggleOpt(this)">Not sure</button>
     </div>
   </div>
 
@@ -447,7 +452,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — For a themed bag of books &amp; activities for a toddler, which label would you click?</div>
+    <div class="q-label">Q3 — For a themed bag of books &amp; activities for a toddler, which label would you click? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b1q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b1q3')">Kits</button>
       <button class="opt-btn" onclick="selectOpt(this,'b1q3')">Activity Bags</button>
@@ -458,18 +463,10 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q4 — Open: What would make the label clearer?</div>
-    <div class="notes-label">Patron's words:</div>
-    <textarea class="notes-area" id="b1-notes" placeholder="e.g. 'I'd call them Grab Bags'…"></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b1-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b1-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b1')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b1')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b1-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 2: LOCAL GOV ══════════════════════ -->
@@ -480,12 +477,11 @@
     <div class="batch-desc">Testing patron expectations when they see this topic label on the website.</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Show patron the phrase. Goal: what content do they predict — not what they want.</div>
-  <div class="strategy-box"><strong>Method: Word Association + Expectation Mapping</strong> — Captures the community's mental model of what this label contains.</div>
+  <div class="strategy-box"><strong>Method: Word Association + Expectation Mapping</strong> — Show the phrase to the patron. The goal is to learn what content they predict — not what they personally want. Captures the community's mental model of this label.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b2-date" /></label>
-    <label>Patron # <input type="text" id="b2-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b2-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
@@ -501,7 +497,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q1 — Which do you expect under "Local Government &amp; Services"? (Select all that apply)</div>
+    <div class="q-label">Q1 — Which do you expect under "Local Government &amp; Services"? (Select all that apply) <span class="q-select-hint">(Select all that apply)</span></div>
     <div class="options-row" id="b2q1-opts">
       <button class="opt-btn" onclick="toggleOpt(this)">Mayor / village board info</button>
       <button class="opt-btn" onclick="toggleOpt(this)">Bus &amp; transit routes</button>
@@ -515,7 +511,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q2 — Does "Local Government &amp; Services" feel right for that content?</div>
+    <div class="q-label">Q2 — Does "Local Government &amp; Services" feel right for that content? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b2q2-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b2q2')">Yes, fits well</button>
       <button class="opt-btn" onclick="selectOpt(this,'b2q2')">Somewhat — a bit vague</button>
@@ -525,7 +521,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — Preferred alternative label?</div>
+    <div class="q-label">Q3 — Preferred alternative label? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b2q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b2q3')">Local Government &amp; Services (keep)</button>
       <button class="opt-btn" onclick="selectOpt(this,'b2q3')">Community Resources</button>
@@ -537,17 +533,10 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b2-notes" placeholder="Patron's exact phrasing, hesitations, or suggested alternatives."></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b2-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b2-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b2')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b2')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b2-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 3: AUDIOBOOKS ══════════════════════ -->
@@ -558,35 +547,34 @@
     <div class="batch-desc">Testing comprehension and preference between "eAudiobooks" and "Streaming Audiobooks."</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Read scenario aloud exactly as written. Ask Q1 before showing options — record unprompted answer.</div>
-  <div class="strategy-box"><strong>Method: Scenario Task + Preference Ballot</strong> — Anchors the label question in a real task (audiobook on your phone) before showing terminology.</div>
+  <div class="strategy-box"><strong>Method: Scenario Task + Preference Ballot</strong> — Read the scenario aloud exactly as written. For Q1, record the patron's unprompted answer before showing the multiple choice options. Anchors the label question in a real-life task before introducing terminology.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b3-date" /></label>
-    <label>Patron # <input type="text" id="b3-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b3-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
 
-  <div class="scenario-card"><div class="scenario-icon">🎧</div><div class="scenario-text">You want to borrow an audiobook to listen to on your phone while you commute. You go to the library website.</div></div>
+  <div class="scenario-card"><div class="scenario-icon">🎧</div><div class="scenario-text">You want to listen to a book on your phone while you're traveling. You go to the library website.</div></div>
 
   <div class="q-block">
-    <div class="q-label">Q1 — What section label would you look for? (Unprompted — write before showing options)</div>
+    <div class="q-label">Q1 — What section label would you look for? <span class="q-select-hint">(Choose one)</span></div>
     <textarea class="notes-area" id="b3-unprompted" placeholder="Patron's exact words…" style="min-height:46px"></textarea>
   </div>
 
   <div class="q-block">
     <div class="q-label">Q2 — Which label is clearer?</div>
     <div class="options-row" id="b3q2-opts">
-      <button class="opt-btn" style="font-size:1.05rem;padding:12px 20px;" onclick="selectOpt(this,'b3q2')">eAudiobooks</button>
-      <button class="opt-btn" style="font-size:1.05rem;padding:12px 20px;" onclick="selectOpt(this,'b3q2')">Streaming Audiobooks</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b3q2')">eAudiobooks</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b3q2')">Streaming Audiobooks</button>
       <button class="opt-btn" onclick="selectOpt(this,'b3q2')">Both equally clear</button>
       <button class="opt-btn" onclick="selectOpt(this,'b3q2')">Neither is clear</button>
     </div>
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — Do these mean the same thing to you?</div>
+    <div class="q-label">Q3 — Do these mean the same thing to you? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b3q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b3q3')">Yes — same thing</button>
       <button class="opt-btn" onclick="selectOpt(this,'b3q3')">No — they feel different</button>
@@ -595,7 +583,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q4 — If different, what's the distinction? (Only if "No" to Q3)</div>
+    <div class="q-label">Q4 — If different, what's the distinction? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b3q4-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b3q4')">eAudiobooks = download; Streaming = play online only</button>
       <button class="opt-btn" onclick="selectOpt(this,'b3q4')">eAudiobooks = e-readers; Streaming = phones/speakers</button>
@@ -606,7 +594,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q5 — Preferred top-level grouping?</div>
+    <div class="q-label">Q5 — Preferred top-level grouping? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b3q5-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b3q5')">Both — listed separately</button>
       <button class="opt-btn" onclick="selectOpt(this,'b3q5')">Both — just call all "Audiobooks"</button>
@@ -616,17 +604,10 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b3-notes" placeholder="Confusion, strong reactions, patron-suggested alternatives (e.g. 'Libby', 'Digital Audiobooks')…"></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b3-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b3-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b3')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b3')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b3-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 4: VIDEO FORMATS ══════════════════════ -->
@@ -637,12 +618,11 @@
     <div class="batch-desc">Testing clarity and grouping across DVD, BluRay, BluRay HD, Streaming Video, Blu-ray Disc.</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Ask patron to drag terms into buckets. After grouping, ask follow-up questions.</div>
-  <div class="strategy-box"><strong>Method: Open Card Sort → Grouping + Preference</strong> — Reveals whether patrons treat these as synonyms, subcategories, or separate media types.</div>
+  <div class="strategy-box"><strong>Method: Open Card Sort → Grouping + Preference</strong> — Ask the patron to drag the terms into whichever bucket feels right to them. After grouping is complete, move to the follow-up questions. Reveals whether patrons treat these as synonyms, subcategories, or separate media types.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b4-date" /></label>
-    <label>Patron # <input type="text" id="b4-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b4-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
@@ -677,7 +657,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q2 — Best ONE label for physical discs on the website?</div>
+    <div class="q-label">Q2 — Best ONE label for physical discs on the website? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b4q2-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b4q2')">DVD</button>
       <button class="opt-btn" onclick="selectOpt(this,'b4q2')">BluRay</button>
@@ -689,7 +669,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — Should BluRay and BluRay HD be separate categories?</div>
+    <div class="q-label">Q3 — Should BluRay and BluRay HD be separate categories? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b4q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b4q3')">Yes — meaningfully different</button>
       <button class="opt-btn" onclick="selectOpt(this,'b4q3')">No — just "Blu-ray" is enough</button>
@@ -699,17 +679,10 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b4-notes" placeholder="Grouping choices, hesitations, 'I didn't know BluRay HD was a thing'…"></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b4-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b4-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b4')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b4')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b4-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 5: BUSINESS / SELF-HELP ══════════════════════ -->
@@ -720,19 +693,18 @@
     <div class="batch-desc">Scope of "Business &amp; Technology" and whether "Self Help" should become "Personal Development &amp; Wellness."</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Two sub-questions — test both (~90 sec each).</div>
-  <div class="strategy-box"><strong>Method: Scope Reaction + Side-by-Side Ranking</strong> — For topic labels, patrons react to what falls in/out of scope, then rank competing labels by fit.</div>
+  <div class="strategy-box"><strong>Method: Scope Reaction + Side-by-Side Ranking</strong> — This batch has two parts (A and B), each taking roughly 90 seconds. Complete both with each patron. Part A tests the scope of "Business &amp; Technology"; Part B tests label preference for self-improvement content.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b5-date" /></label>
-    <label>Patron # <input type="text" id="b5-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b5-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
 
   <div style="font-weight:700;color:var(--npl-dark);margin:14px 0 8px;">Part A — "Business &amp; Technology"</div>
   <div class="q-block">
-    <div class="q-label">Q1A — Topics expected under "Business &amp; Technology"? (Select all)</div>
+    <div class="q-label">Q1A — Topics expected under "Business &amp; Technology"?  <span class="q-select-hint">(Select all that apply)</span></div>
     <div class="options-row" id="b5q1a-opts">
       <button class="opt-btn" onclick="toggleOpt(this)">Starting or running a business</button>
       <button class="opt-btn" onclick="toggleOpt(this)">How to use smartphones / computers</button>
@@ -761,17 +733,17 @@
   <div style="font-weight:700;color:var(--npl-dark);margin:18px 0 8px;">Part B — "Self Help" vs. "Personal Development &amp; Wellness"</div>
   <div class="scenario-card"><div class="scenario-icon">🌱</div><div class="scenario-text">You're looking for books about managing anxiety, building healthy habits, or improving your relationships.</div></div>
   <div class="q-block">
-    <div class="q-label">Q3B — Which label would you click to find those books?</div>
+    <div class="q-label">Q3B — Which label would you click to find those books? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b5q3b-opts">
-      <button class="opt-btn" style="font-size:1rem;padding:11px 16px;" onclick="selectOpt(this,'b5q3b')">Self Help</button>
-      <button class="opt-btn" style="font-size:1rem;padding:11px 16px;" onclick="selectOpt(this,'b5q3b')">Personal Development &amp; Wellness</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Self Help</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Personal Development &amp; Wellness</button>
       <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Health &amp; Well-Being</button>
       <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Mind &amp; Body</button>
       <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">I wouldn't know where to look</button>
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q4B — Does "Self Help" feel welcoming and non-stigmatizing?</div>
+    <div class="q-label">Q4B — Does "Self Help" feel welcoming and non-stigmatizing? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b5q4b-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">Yes — familiar and fine</button>
       <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">OK but feels a little clinical</button>
@@ -781,17 +753,21 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b5-notes" placeholder="Expectations under these labels, suggested alternatives…"></textarea>
+    <div class="q-label">Q5 — Should "Business &amp; Technology" be split into two separate categories — "Business" and "Technology"? <span class="q-select-hint">(Choose one)</span></div>
+    <div class="options-row" id="b5q5-opts">
+      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Yes — they're different enough to be separate</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">No — I'd keep them together as one section</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Business should be its own section; Technology belongs elsewhere</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Technology should be its own section; Business belongs elsewhere</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Not sure</button>
+    </div>
   </div>
 
-  <div class="gh-status-bar" id="b5-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b5')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b5')">↺ Reset for next patron</button>
+  <div class="q-block">
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b5-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-  <div class="summary-panel" id="b5-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 6: TEEN / YA ══════════════════════ -->
@@ -802,31 +778,30 @@
     <div class="batch-desc">Which label do patrons — especially teens — associate with the 13–18 age range?</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Best tested WITH teens directly. Also test with adults shopping for teens. Ask Q1 before showing both terms.</div>
-  <div class="strategy-box"><strong>Method: Identity Mapping + Preference Ballot</strong> — Not just clarity, but does the label feel like it's "for me"?</div>
+  <div class="strategy-box"><strong>Method: Identity Mapping + Preference Ballot</strong> — Best run with teens directly; also valuable with adults shopping for teens. For Q1, record the patron's unprompted answer before showing both terms. The goal is not just label clarity — but whether the label feels like it's "for me."</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b6-date" /></label>
-    <label>Patron # <input type="text" id="b6-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b6-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q1 — Unprompted: What section would you use to find books for a 15-year-old?</div>
+    <div class="q-label">Q1 — Unprompted: What section would you use to find books for a 15-year-old? <span class="q-select-hint">(Choose one)</span></div>
     <textarea class="notes-area" id="b6-unprompted" placeholder="Patron's exact words before seeing the two terms…" style="min-height:46px"></textarea>
   </div>
   <div class="q-block">
     <div class="q-label">Q2 — Which label feels right for ages 13–18?</div>
     <div class="options-row" id="b6q2-opts">
-      <button class="opt-btn" style="font-size:1.15rem;padding:14px 26px;" onclick="selectOpt(this,'b6q2')">Teen</button>
-      <button class="opt-btn" style="font-size:1.15rem;padding:14px 26px;" onclick="selectOpt(this,'b6q2')">Young Adult</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Teen</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Young Adult</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Both work equally</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Neither — I'd use a different word</button>
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q3 — Do they mean the same age range to you?</div>
+    <div class="q-label">Q3 — Do they mean the same age range to you? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b6q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b6q3')">Yes — exact same</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q3')">Mostly the same, slight overlap</button>
@@ -835,7 +810,7 @@
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q4 — (Ask teens directly) Which label feels like it's meant for you?</div>
+    <div class="q-label">Q4 — Which label feels like it's meant for you? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b6q4-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b6q4')">Teen — that's what I am</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q4')">Young Adult — sounds more mature</button>
@@ -844,7 +819,7 @@
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q5 — Use BOTH labels or just one?</div>
+    <div class="q-label">Q5 — Use BOTH labels or just one? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b6q5-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b6q5')">Just one — less confusing</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q5')">Both — different people use different words</button>
@@ -852,17 +827,10 @@
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b6-notes" placeholder="Patron age group, strong preferences, reasoning ('YA is a genre name, Teen is a person')…"></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b6-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b6-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b6')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b6')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b6-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 7: EARLY READING ══════════════════════ -->
@@ -873,19 +841,18 @@
     <div class="batch-desc">Do caregivers understand "Easy Reader" and "Chapter Book," and what ages do they assign?</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Best with caregivers of ages 4–10. The age-spectrum drag activity can also be run as a physical card sort.</div>
-  <div class="strategy-box"><strong>Method: Age-Range Mapping</strong> — Lets caregivers show (not just tell) what ages each label means to them.</div>
+  <div class="strategy-box"><strong>Method: Age-Range Mapping</strong> — Best run with caregivers of children ages 4–10. The drag activity can also be done as a physical card sort if preferred. The goal is to let caregivers show — not just tell — what ages each label means to them.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b7-date" /></label>
-    <label>Patron # <input type="text" id="b7-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b7-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     <label>Child's age (if caregiver) <input type="text" id="b7-childage" placeholder="e.g. 7" style="width:80px" /></label>
     
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q1 — What age/grade does "Easy Reader" bring to mind?</div>
+    <div class="q-label">Q1 — What age/grade does "Easy Reader" bring to mind? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b7q1-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b7q1')">Ages 2–4 (Toddler / Pre-K)</button>
       <button class="opt-btn" onclick="selectOpt(this,'b7q1')">Ages 4–6 (Pre-K / Kindergarten)</button>
@@ -896,7 +863,7 @@
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q2 — What age/grade does "Chapter Book" bring to mind?</div>
+    <div class="q-label">Q2 — What age/grade does "Chapter Book" bring to mind? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b7q2-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b7q2')">Ages 4–6 (Pre-K / Kindergarten)</button>
       <button class="opt-btn" onclick="selectOpt(this,'b7q2')">Ages 6–8 (Grades 1–2)</button>
@@ -907,16 +874,16 @@
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q3 — Which label is clearer for a parent searching for their child?</div>
+    <div class="q-label">Q3 — Which label is clearer for a parent searching for their child? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b7q3-opts">
-      <button class="opt-btn" style="font-size:1.05rem;padding:12px 18px;" onclick="selectOpt(this,'b7q3')">Easy Reader</button>
-      <button class="opt-btn" style="font-size:1.05rem;padding:12px 18px;" onclick="selectOpt(this,'b7q3')">Chapter Book</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b7q3')">Easy Reader</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b7q3')">Chapter Book</button>
       <button class="opt-btn" onclick="selectOpt(this,'b7q3')">Both are clear</button>
       <button class="opt-btn" onclick="selectOpt(this,'b7q3')">Neither — I'd search by age/grade</button>
     </div>
   </div>
   <div class="q-block">
-    <div class="q-label">Q4 — Preferred label for beginning readers?</div>
+    <div class="q-label">Q4 — Preferred label for beginning readers? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b7q4-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b7q4')">Easy Reader (keep it)</button>
       <button class="opt-btn" onclick="selectOpt(this,'b7q4')">Beginning Readers</button>
@@ -936,40 +903,33 @@
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <div class="drop-zone" style="min-width:95px;" ondragover="allowDrop(event)" ondrop="dropTerm(event,'b7-age03')" id="b7-age03">
-        <div class="zone-label" style="font-size:.7rem;">0–3 yrs</div>
+        <div class="zone-label">0–3 yrs</div>
         <div class="dropped-items" id="items-b7-age03"></div>
       </div>
       <div class="drop-zone" style="min-width:95px;" ondragover="allowDrop(event)" ondrop="dropTerm(event,'b7-age45')" id="b7-age45">
-        <div class="zone-label" style="font-size:.7rem;">4–5 yrs</div>
+        <div class="zone-label">4–5 yrs</div>
         <div class="dropped-items" id="items-b7-age45"></div>
       </div>
       <div class="drop-zone" style="min-width:95px;" ondragover="allowDrop(event)" ondrop="dropTerm(event,'b7-age67')" id="b7-age67">
-        <div class="zone-label" style="font-size:.7rem;">6–7 yrs</div>
+        <div class="zone-label">6–7 yrs</div>
         <div class="dropped-items" id="items-b7-age67"></div>
       </div>
       <div class="drop-zone" style="min-width:95px;" ondragover="allowDrop(event)" ondrop="dropTerm(event,'b7-age810')" id="b7-age810">
-        <div class="zone-label" style="font-size:.7rem;">8–10 yrs</div>
+        <div class="zone-label">8–10 yrs</div>
         <div class="dropped-items" id="items-b7-age810"></div>
       </div>
       <div class="drop-zone" style="min-width:95px;" ondragover="allowDrop(event)" ondrop="dropTerm(event,'b7-age1113')" id="b7-age1113">
-        <div class="zone-label" style="font-size:.7rem;">11–13 yrs</div>
+        <div class="zone-label">11–13 yrs</div>
         <div class="dropped-items" id="items-b7-age1113"></div>
       </div>
     </div>
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b7-notes" placeholder="Child's age, confusion about labels, whether patron searched by label vs. age/grade…"></textarea>
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b7-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b7-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b7')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b7')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b7-summary"></div>
-</div>
 
 
 <!-- ══════════════════════ BATCH 8: DIGITAL RESOURCES ══════════════════════ -->
@@ -980,12 +940,11 @@
     <div class="batch-desc">11 competing labels. Which does a patron click for online library resources? Largest, most complex batch — allow 5–7 minutes.</div>
     
   </div>
-  <div class="facilitator-box"><strong>🎙 Facilitator:</strong> Card sort first — reveals natural groupings. Then ask labeling questions. ~5–7 min.</div>
-  <div class="strategy-box"><strong>Method: Open Card Sort + Top-Level Label Naming</strong> — 11 terms → which belong together, and which ONE would the patron use on the top-level menu?</div>
+  <div class="strategy-box"><strong>Method: Open Card Sort + Top-Level Label Naming</strong> — Start with the card sort to reveal natural groupings, then move to the labeling questions. Allow 5–7 minutes. The goal: of these 11 competing terms, which belong together — and which ONE would the patron choose for the top-level navigation menu?</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b8-date" /></label>
-    <label>Patron # <input type="text" id="b8-patron" placeholder="e.g. 001" style="width:90px" /></label>
+    
     <label>Age group <select id="b8-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
     
   </div>
@@ -1032,7 +991,7 @@
   <div class="scenario-card"><div class="scenario-icon">🔍</div><div class="scenario-text">You want to find free online articles, encyclopedia entries, or news archives the library provides access to.</div></div>
 
   <div class="q-block">
-    <div class="q-label">Q2 — Which ONE label would you click to find that content?</div>
+    <div class="q-label">Q2 — Which ONE label would you click to find that content? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b8q2-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b8q2')">Online Resources</button>
       <button class="opt-btn" onclick="selectOpt(this,'b8q2')">eResources</button>
@@ -1046,7 +1005,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — Confusing or unclear terms? (Select all)</div>
+    <div class="q-label">Q3 — Confusing or unclear terms?  <span class="q-select-hint">(Select all that apply)</span></div>
     <div class="options-row" id="b8q3-opts">
       <button class="opt-btn" onclick="toggleOpt(this)">eResources</button>
       <button class="opt-btn" onclick="toggleOpt(this)">Research Databases</button>
@@ -1059,7 +1018,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q4 — Should "Databases" and "Streaming Media" be in the same section or separate?</div>
+    <div class="q-label">Q4 — Should "Databases" and "Streaming Media" be in the same section or separate? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b8q4-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b8q4')">Same — both are "Digital Resources"</button>
       <button class="opt-btn" onclick="selectOpt(this,'b8q4')">Separate — Research ≠ Entertainment</button>
@@ -1068,7 +1027,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q5 — Best single top-level label for ALL digital/online library offerings?</div>
+    <div class="q-label">Q5 — Best single top-level label for ALL digital/online library offerings? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b8q5-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b8q5')">Online Resources</button>
       <button class="opt-btn" onclick="selectOpt(this,'b8q5')">Digital Resources</button>
@@ -1080,17 +1039,10 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Facilitator Notes</div>
-    <textarea class="notes-area" id="b8-notes" placeholder="Terms patron had never heard of, strong preferences, 'for fun vs. for research' distinction…"></textarea>
+    <div class="q-label">Final Comments <span class="q-select-hint">(Select all that apply)</span></div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
+    <textarea class="notes-area" id="b8-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
   </div>
-
-  <div class="gh-status-bar" id="b8-gh-status"></div>
-  <div class="action-bar">
-    <button class="btn-primary" onclick="saveSession('b8')">💾 Save &amp; Export Session CSV</button>
-    <button class="btn-reset" onclick="resetBatch('b8')">↺ Reset for next patron</button>
-  </div>
-  <div class="summary-panel" id="b8-summary"></div>
-</div>
 
 </main>
 <footer>Northbrook Public Library · Patron UX Testing Toolkit · For in-person facilitated sessions · Not for distribution</footer>
@@ -1175,7 +1127,6 @@ function collectResponses(batch) {
   row['session_timestamp'] = now.toISOString();
   row['batch'] = batch;
   row['date']   = (document.getElementById(batch+'-date')  || {}).value || now.toISOString().slice(0,10);
-  row['patron'] = (document.getElementById(batch+'-patron') || {}).value || '';
   row['age_group'] = (document.getElementById(batch+'-age') || {}).value || '';
   if (batch === 'b7') row['child_age'] = (document.getElementById('b7-childage') || {}).value || '';
 
@@ -1248,10 +1199,7 @@ async function saveSession(batch) {
   const filename = 'NPL_UX_' + batch.toUpperCase() + '_' + (row['date'] || new Date().toISOString().slice(0,10)) + '_' + (row['patron'] || 'patron') + '.csv';
   const csv = rowsToCSV([row]);
 
-  // Always download locally as backup
-  downloadCSV(csv, filename);
-
-  // Also commit to GitHub if configured
+  // Commit to GitHub if configured; only download locally as fallback
   const statusEl = document.getElementById(batch + '-gh-status');
   if (ghConfigured && statusEl) {
     statusEl.textContent = '⏳ Submitting to GitHub…';
@@ -1260,22 +1208,33 @@ async function saveSession(batch) {
     try {
       const result = await commitCSVToGitHub(csv, filename, batch);
       if (result.ok) {
+        // GitHub succeeded — no local download needed
         statusEl.textContent = '✅ Saved to private data repo: ' + GH.owner + '/' + GH.dataRepo + '/' + GH.folder + '/' + filename;
         statusEl.className = 'gh-status-bar visible';
       } else if (result.reason === 'not_configured') {
+        // Shouldn't reach here if ghConfigured is true, but just in case
+        downloadCSV(csv, filename);
         statusEl.textContent = '💾 CSV downloaded locally. Configure GitHub (⚙ header) to also submit online.';
         statusEl.className = 'gh-status-bar visible pending';
       } else {
+        // GitHub failed — fall back to local download
+        downloadCSV(csv, filename);
         statusEl.textContent = '⚠ GitHub error (HTTP ' + result.status + '). CSV downloaded locally as backup.';
         statusEl.className = 'gh-status-bar visible error';
       }
     } catch (err) {
-      statusEl.textContent = '⚠ GitHub error: ' + err.message + '. CSV saved locally.';
+      // Network error — fall back to local download
+      downloadCSV(csv, filename);
+      statusEl.textContent = '⚠ GitHub error: ' + err.message + '. CSV saved locally as backup.';
       statusEl.className = 'gh-status-bar visible error';
     }
-  } else if (statusEl) {
-    statusEl.textContent = '💾 Saved locally. Tap ⚙ GitHub Setup in the header to also submit to your repo.';
-    statusEl.className = 'gh-status-bar visible pending';
+  } else {
+    // GitHub not configured — always download locally
+    downloadCSV(csv, filename);
+    if (statusEl) {
+      statusEl.textContent = '💾 Saved locally. Tap ⚙ GitHub Setup in the header to also submit to your repo.';
+      statusEl.className = 'gh-status-bar visible pending';
+    }
   }
 
   // Show summary
