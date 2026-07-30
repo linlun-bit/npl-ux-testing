@@ -310,7 +310,8 @@
   <button onclick="showScreen('b2')">Lot 2 · Local Gov</button>
   <button onclick="showScreen('b3')">Lot 3 · Audiobooks</button>
   <button onclick="showScreen('b4')">Lot 4 · Video</button>
-  <button onclick="showScreen('b5')">Lot 5 · Business</button>
+  <button onclick="showScreen('b5')">Lot 5 · Biz &amp; Tech</button>
+  <button onclick="showScreen('b5b')">Lot 5b · Self-Help</button>
   <button onclick="showScreen('b6')">Lot 6 · Teen/YA</button>
   <button onclick="showScreen('b7')">Lot 7 · Early Reading</button>
   <button onclick="showScreen('b8')">Lot 8 · Digital</button>
@@ -337,7 +338,8 @@
       <div class="export-stat"><div class="num" id="stat-b2">0</div><div class="lbl">Lot 2 · Local Gov</div></div>
       <div class="export-stat"><div class="num" id="stat-b3">0</div><div class="lbl">Lot 3 · Audio</div></div>
       <div class="export-stat"><div class="num" id="stat-b4">0</div><div class="lbl">Lot 4 · Video</div></div>
-      <div class="export-stat"><div class="num" id="stat-b5">0</div><div class="lbl">Lot 5 · Business</div></div>
+      <div class="export-stat"><div class="num" id="stat-b5">0</div><div class="lbl">Lot 5 · Biz &amp; Tech</div></div>
+      <div class="export-stat"><div class="num" id="stat-b5b">0</div><div class="lbl">Lot 5b · Self-Help</div></div>
       <div class="export-stat"><div class="num" id="stat-b6">0</div><div class="lbl">Lot 6 · Teen</div></div>
       <div class="export-stat"><div class="num" id="stat-b7">0</div><div class="lbl">Lot 7 · Early</div></div>
       <div class="export-stat"><div class="num" id="stat-b8">0</div><div class="lbl">Lot 8 · Digital</div></div>
@@ -376,10 +378,17 @@
     </div>
     <div class="overview-card" onclick="showScreen('b5')">
       <span class="ov-num topic">Lot 5 · Topic</span>
-      <div class="ov-title">Business &amp; Self-Help</div>
-      <div class="ov-terms">Business &amp; Tech · Self Help · PD&amp;W</div>
+      <div class="ov-title">Business &amp; Technology</div>
+      <div class="ov-terms">Scope · split vs. combined</div>
       <div class="ov-method">Scope Reaction + Ranking</div>
       <div class="ov-count" id="ov-b5">0 sessions</div>
+    </div>
+    <div class="overview-card" onclick="showScreen('b5b')">
+      <span class="ov-num topic">Lot 5b · Topic</span>
+      <div class="ov-title">Self-Help</div>
+      <div class="ov-terms">Self Help · PD &amp; Wellness · Mind &amp; Body</div>
+      <div class="ov-method">Scenario + Label Preference</div>
+      <div class="ov-count" id="ov-b5b">0 sessions</div>
     </div>
     <div class="overview-card" onclick="showScreen('b6')">
       <span class="ov-num genre">Lot 6 · Genre</span>
@@ -423,7 +432,7 @@
     
   </div>
 
-  <div class="scenario-card"><div class="scenario-icon">🎁</div><div class="scenario-text">You see a section of the library labeled <em>"Kits."</em></div></div>
+  <div class="scenario-card"><div class="scenario-text">You see a section on the library's website labeled <em>"Kits."</em></div></div>
 
   <div class="q-block">
     <div class="q-label">Q1 — What do you think you'd find in a section called "Kits"? <span class="q-select-hint">(Select all that apply)</span></div>
@@ -452,7 +461,7 @@
   </div>
 
   <div class="q-block">
-    <div class="q-label">Q3 — For a themed bag of books &amp; activities for a toddler, which label would you click? <span class="q-select-hint">(Choose one)</span></div>
+    <div class="q-label">Q3 — If you were looking for a themed bag of books &amp; activities for a toddler, which label would you click? <span class="q-select-hint">(Choose one)</span></div>
     <div class="options-row" id="b1q3-opts">
       <button class="opt-btn" onclick="selectOpt(this,'b1q3')">Kits</button>
       <button class="opt-btn" onclick="selectOpt(this,'b1q3')">Activity Bags</button>
@@ -496,7 +505,7 @@
 
   <div class="assoc-block">
     <div class="assoc-term">Local Government &amp; Services</div>
-    <div class="assoc-prompt">What words or topics come to mind? Type each one and press Add (or Enter).</div>
+    <div class="assoc-prompt">If you visited the library's "Local Government &amp; Services" web page, what words or topics would you expect to find? Type each one and press Add (or Enter).</div>
     <div class="tag-input-row">
       <input class="tag-input" id="b2-word-input" type="text" placeholder="e.g. mayor, permits, bus routes…" onkeydown="if(event.key==='Enter'){addTag('b2')}">
       <button class="add-btn" onclick="addTag('b2')">Add</button>
@@ -688,7 +697,8 @@
       <button class="opt-btn" onclick="selectOpt(this,'b4q2')">BluRay HD</button>
       <button class="opt-btn" onclick="selectOpt(this,'b4q2')">Blu-ray Disc</button>
       <button class="opt-btn" onclick="selectOpt(this,'b4q2')">DVD &amp; Blu-ray (combined)</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b4q2')">Movies &amp; Shows (no format label)</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b4q2')">Movies &amp; TV</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b4q2')">Physical Media</button>
     </div>
   </div>
 
@@ -717,27 +727,23 @@
 </div>
 
 
-<!-- ══════════════════════ BATCH 5: BUSINESS / SELF-HELP ══════════════════════ -->
+<!-- ══════════════════════ BATCH 5: BUSINESS & TECHNOLOGY ══════════════════════ -->
 <div id="b5" class="screen">
   <div class="batch-header">
     <span class="batch-num topic">Lot 5 · Topic</span>
-    <div class="batch-title">Business &amp; Technology / Self-Help</div>
-    <div class="batch-desc">Scope of "Business &amp; Technology" and whether "Self Help" should become "Personal Development &amp; Wellness."</div>
-    
+    <div class="batch-title">Business &amp; Technology</div>
+    <div class="batch-desc">Scope and clarity of the "Business &amp; Technology" topic label.</div>
   </div>
-  <div class="strategy-box"><strong>Method: Scope Reaction + Side-by-Side Ranking</strong> — This batch has two parts (A and B), each taking roughly 90 seconds. Complete both with each patron. Part A tests the scope of "Business &amp; Technology"; Part B tests label preference for self-improvement content.</div>
+  <div class="strategy-box"><strong>Method: Scope Reaction + Ranking</strong> — Ask the patron what topics they expect under this label, then rate how clear the scope feels. Allow ~90 seconds.</div>
 
   <div class="patron-meta">
     <label>Date <input type="date" id="b5-date" /></label>
-    
     <label>Age group <select id="b5-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
-    
   </div>
 
-  <div style="font-weight:700;color:var(--npl-dark);margin:14px 0 8px;">Part A — "Business &amp; Technology"</div>
   <div class="q-block">
-    <div class="q-label">Q1A — Topics expected under "Business &amp; Technology"?  <span class="q-select-hint">(Select all that apply)</span></div>
-    <div class="options-row" id="b5q1a-opts">
+    <div class="q-label">Q1 — Topics expected under "Business &amp; Technology"? <span class="q-select-hint">(Select all that apply)</span></div>
+    <div class="options-row" id="b5q1-opts">
       <button class="opt-btn" onclick="toggleOpt(this)">Starting or running a business</button>
       <button class="opt-btn" onclick="toggleOpt(this)">How to use smartphones / computers</button>
       <button class="opt-btn" onclick="toggleOpt(this)">Coding &amp; programming</button>
@@ -747,58 +753,37 @@
       <button class="opt-btn" onclick="toggleOpt(this)">Nonprofit management</button>
     </div>
   </div>
+
   <div class="q-block">
-    <div class="q-label">Q2A — Is the scope of "Business &amp; Technology" clear to you?</div>
+    <div class="q-label">Q2 — Is the scope of "Business &amp; Technology" clear to you?</div>
     <div class="likert-row">
       <span class="likert-label-lo">Very unclear</span>
-      <div class="likert-btns" id="b5q2a-likert">
-        <button class="likert-btn" onclick="selectLikert(this,'b5q2a')">1</button>
-        <button class="likert-btn" onclick="selectLikert(this,'b5q2a')">2</button>
-        <button class="likert-btn" onclick="selectLikert(this,'b5q2a')">3</button>
-        <button class="likert-btn" onclick="selectLikert(this,'b5q2a')">4</button>
-        <button class="likert-btn" onclick="selectLikert(this,'b5q2a')">5</button>
+      <div class="likert-btns" id="b5q2-likert">
+        <button class="likert-btn" onclick="selectLikert(this,'b5q2')">1</button>
+        <button class="likert-btn" onclick="selectLikert(this,'b5q2')">2</button>
+        <button class="likert-btn" onclick="selectLikert(this,'b5q2')">3</button>
+        <button class="likert-btn" onclick="selectLikert(this,'b5q2')">4</button>
+        <button class="likert-btn" onclick="selectLikert(this,'b5q2')">5</button>
       </div>
       <span class="likert-label-hi">Very clear</span>
     </div>
   </div>
 
-  <div style="font-weight:700;color:var(--npl-dark);margin:18px 0 8px;">Part B — "Self Help" vs. "Personal Development &amp; Wellness"</div>
-  <div class="scenario-card"><div class="scenario-icon">🌱</div><div class="scenario-text">You're looking for books about managing anxiety, building healthy habits, or improving your relationships.</div></div>
   <div class="q-block">
-    <div class="q-label">Q3B — Which label would you click to find those books? <span class="q-select-hint">(Choose one)</span></div>
-    <div class="options-row" id="b5q3b-opts">
-      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Self Help</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Personal Development &amp; Wellness</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Health &amp; Well-Being</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">Mind &amp; Body</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q3b')">I wouldn't know where to look</button>
-    </div>
-  </div>
-  <div class="q-block">
-    <div class="q-label">Q4B — Does "Self Help" feel welcoming and non-stigmatizing? <span class="q-select-hint">(Choose one)</span></div>
-    <div class="options-row" id="b5q4b-opts">
-      <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">Yes — familiar and fine</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">OK but feels a little clinical</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">No — feels stigmatizing</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q4b')">No strong opinion</button>
-    </div>
-  </div>
-
-  <div class="q-block">
-    <div class="q-label">Q5 — Should "Business &amp; Technology" be split into two separate categories — "Business" and "Technology"? <span class="q-select-hint">(Choose one)</span></div>
-    <div class="options-row" id="b5q5-opts">
-      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Yes — they're different enough to be separate</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">No — I'd keep them together as one section</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Business should be its own section; Technology belongs elsewhere</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Technology should be its own section; Business belongs elsewhere</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b5q5')">Not sure</button>
+    <div class="q-label">Q3 — Should "Business &amp; Technology" be split into two separate categories? <span class="q-select-hint">(Choose one)</span></div>
+    <div class="options-row" id="b5q3-opts">
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3')">Yes — they're different enough to be separate</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3')">No — keep them together as one section</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3')">Business should be its own section; Technology belongs elsewhere</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3')">Technology should be its own section; Business belongs elsewhere</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5q3')">Not sure</button>
     </div>
   </div>
 
   <div class="q-block">
     <div class="q-label">Final Comments</div>
-    <div class="q-sub">Observations from the patron, caretaker, or facilitator — any reactions, hesitations, or suggestions worth noting.</div>
-    <textarea class="notes-area" id="b5-notes" placeholder="e.g. 'Patron laughed and said they had no idea…' or 'Caretaker disagreed with their child's answer'…"></textarea>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator.</div>
+    <textarea class="notes-area" id="b5-notes" placeholder="e.g. 'Patron laughed and said they had no idea…'"></textarea>
   </div>
 
   <div class="gh-status-bar" id="b5-gh-status"></div>
@@ -807,6 +792,58 @@
     <button class="btn-reset" onclick="resetBatch('b5')">↺ Reset for next patron</button>
   </div>
   <div class="summary-panel" id="b5-summary"></div>
+</div>
+
+
+<!-- ══════════════════════ BATCH 5b: SELF-HELP ══════════════════════ -->
+<div id="b5b" class="screen">
+  <div class="batch-header">
+    <span class="batch-num topic">Lot 5b · Topic</span>
+    <div class="batch-title">Self-Help / Personal Development &amp; Wellness</div>
+    <div class="batch-desc">Does "Self Help" feel welcoming? Would patrons prefer "Personal Development &amp; Wellness"?</div>
+  </div>
+  <div class="strategy-box"><strong>Method: Scenario + Label Preference</strong> — Grounded in a real scenario. The goal is to learn which label patrons would click, and whether "Self Help" feels welcoming or stigmatizing.</div>
+
+  <div class="patron-meta">
+    <label>Date <input type="date" id="b5b-date" /></label>
+    <label>Age group <select id="b5b-age"><option value="">—</option><option>Child (under 12)</option><option>Teen (13–17)</option><option>Adult (18–64)</option><option>Senior (65+)</option></select></label>
+  </div>
+
+  <div class="scenario-card"><div class="scenario-text">You're looking for books about managing anxiety, building healthy habits, or improving your relationships.</div></div>
+
+  <div class="q-block">
+    <div class="q-label">Q1 — Which label would you click to find those books? <span class="q-select-hint">(Choose one)</span></div>
+    <div class="options-row" id="b5bq1-opts">
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq1')">Self Help</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq1')">Personal Development &amp; Wellness</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq1')">Health &amp; Well-Being</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq1')">Mind &amp; Body</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq1')">I wouldn't know where to look</button>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Q2 — Does "Self Help" feel welcoming and non-stigmatizing? <span class="q-select-hint">(Choose one)</span></div>
+    <div class="options-row" id="b5bq2-opts">
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq2')">Yes — familiar and fine</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq2')">OK but feels a little clinical</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq2')">No — feels stigmatizing</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b5bq2')">No strong opinion</button>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-label">Final Comments</div>
+    <div class="q-sub">Observations from the patron, caretaker, or facilitator.</div>
+    <textarea class="notes-area" id="b5b-notes" placeholder="e.g. 'Patron preferred Personal Development &amp; Wellness…'"></textarea>
+  </div>
+
+  <div class="gh-status-bar" id="b5b-gh-status"></div>
+  <div class="action-bar">
+    <button class="btn-primary" onclick="saveSession('b5b')">💾 Save &amp; Export Session CSV</button>
+    <button class="btn-reset" onclick="resetBatch('b5b')">↺ Reset for next patron</button>
+  </div>
+  <div class="summary-panel" id="b5b-summary"></div>
 </div>
 
 
@@ -837,7 +874,11 @@
       <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Teen</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Young Adult</button>
       <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Both work equally</button>
-      <button class="opt-btn" onclick="selectOpt(this,'b6q2')">Neither — I'd use a different word</button>
+      <button class="opt-btn" onclick="selectOpt(this,'b6q2');toggleNeitherField(this)" id="b6q2-neither">Neither — I'd use a different word</button>
+    </div>
+    <div id="b6q2-other-wrap" style="margin-top:10px;display:none;">
+      <label style="font-size:.88rem;font-weight:700;color:#2d2d2d;display:block;margin-bottom:4px;">What word would you use instead?</label>
+      <input type="text" id="b6q2-other" class="tag-input" placeholder="Patron's suggested term…" style="width:100%;max-width:380px;" />
     </div>
   </div>
   <div class="q-block">
@@ -1527,6 +1568,21 @@ async function commitCSVToGitHub(csvString, filename, batch) {
   });
 
   return { ok: resp.ok, status: resp.status };
+}
+
+
+function toggleNeitherField(btn) {
+  var wrap = document.getElementById('b6q2-other-wrap');
+  if (!wrap) return;
+  if (btn && btn.classList.contains('selected')) {
+    wrap.style.display = 'block';
+    var inp = document.getElementById('b6q2-other');
+    if (inp) inp.focus();
+  } else {
+    wrap.style.display = 'none';
+    var inp2 = document.getElementById('b6q2-other');
+    if (inp2) inp2.value = '';
+  }
 }
 
 // Set today's date on all date fields
