@@ -305,16 +305,16 @@
 </header>
 
 <nav id="main-nav">
-  <button class="active" onclick="showScreen('home')">🏠 Overview</button>
-  <button onclick="showScreen('b1')">Lot 1 · Kits</button>
-  <button onclick="showScreen('b2')">Lot 2 · Local Gov</button>
-  <button onclick="showScreen('b3')">Lot 3 · Audiobooks</button>
-  <button onclick="showScreen('b4')">Lot 4 · Video</button>
-  <button onclick="showScreen('b5')">Lot 5 · Biz &amp; Tech</button>
-  <button onclick="showScreen('b5b')">Lot 5b · Self-Help</button>
-  <button onclick="showScreen('b6')">Lot 6 · Teen/YA</button>
-  <button onclick="showScreen('b7')">Lot 7 · Early Reading</button>
-  <button onclick="showScreen('b8')">Lot 8 · Digital</button>
+  <button class="active" data-screen="home" onclick="showScreen('home')">🏠 Overview</button>
+  <button data-screen="b1" onclick="showScreen('b1')">Lot 1 · Kits</button>
+  <button data-screen="b2" onclick="showScreen('b2')">Lot 2 · Local Gov</button>
+  <button data-screen="b3" onclick="showScreen('b3')">Lot 3 · Audiobooks</button>
+  <button data-screen="b4" onclick="showScreen('b4')">Lot 4 · Video</button>
+  <button data-screen="b5" onclick="showScreen('b5')">Lot 5 · Biz &amp; Tech</button>
+  <button data-screen="b5b" onclick="showScreen('b5b')">Lot 5b · Self-Help</button>
+  <button data-screen="b6" onclick="showScreen('b6')">Lot 6 · Teen/YA</button>
+  <button data-screen="b7" onclick="showScreen('b7')">Lot 7 · Early Reading</button>
+  <button data-screen="b8" onclick="showScreen('b8')">Lot 8 · Digital</button>
 </nav>
 
 <main>
@@ -1145,15 +1145,16 @@
 
 <script>
 // ══ Navigation ══════════════════════════════════════════════════
-const SCREENS = ['home','b1','b2','b3','b4','b5','b6','b7','b8'];
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screen = document.getElementById(id);
+  if (screen) screen.classList.add('active');
+
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  const idx = SCREENS.indexOf(id);
-  const btns = document.querySelectorAll('nav button');
-  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
-  window.scrollTo(0,0);
+  const btn = document.querySelector('nav button[data-screen="' + id + '"]');
+  if (btn) btn.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ══ Option selection ════════════════════════════════════════════
